@@ -1,0 +1,53 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block metadescription %}
+
+      {{ product.description|truncatewords:155 }}
+
+{% endblock %}
+
+
+{% block title %}
+
+    {% if category %}
+
+        {{ product.name }} - Rainbow & Kids Club Company
+
+    {% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="row my_prod_row_class">
+        <div class="mx-auto"> 
+            <p> <a href="{% url 'firstapp:all_Product_Category' %}"> <b>Home </b></a> | <a href="{{product.category.get_url}}"> <b>{{product.category}}</b></a> | <b> {{product.name}}</b></p>
+        </div>
+    </div>
+  <div class="container">
+    <br>
+
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+            <div style="margin-right:50%;">
+                <img src="{{product.image.url}}" alt="{{product.name}}" style="width:320px;height:300px;box-shadow:4px 4px 4px 4px grey;">
+            </div>
+        </div>
+        <div style="margin-left:40%;margin-top:-28%;">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+              <div>
+                <h1 class="my_prod_title"><b>{{product.name}}</b></h1>
+                <p><b>Rs. {{product.price}}/-</b></p>
+                <p style="color:green;"><b>Product Descriptions</b></p>
+                <p class="my-prod-text">{{product.description}}</p>
+                {% if product.stock <= 0 %}
+                <p><b>Out of Stock</b></p>
+                {% else %}
+                <a class="btn btn-danger" href="{% url 'cartapp:add_cart' product.id %}"> Add to Cart </a><br><br><br>
+                {% endif %}
+              </div>
+            </div>
+        </div><br><br><br><br>
+    </div>
+  </div>
+    {% endblock %}

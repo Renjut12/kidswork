@@ -1,0 +1,98 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block metadescription %}
+
+  {% if category %}
+
+     {{category.description|truncatewords:155}}
+
+  {% else %}
+
+     Welcome to Rainbow & Kids Club  Company ..........
+
+  {% endif %}
+
+{% endblock %}
+
+
+{% block title %}
+
+    {% if category %}
+
+        {{category.name}} - Rainbow & Kids Club Company
+
+    {% else %}
+
+    Rainbow & Kids Club Company
+
+    {% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+
+    {% if category %}
+
+         <div>
+             <p> <a href="{% url 'firstapp:all_Product_Category' %}" > Our Product Collections </a></p>
+         </div>
+
+    {% endif %}
+
+
+
+    <div>
+
+        {% if category %}
+            <img src="{{category.image.url}}" alt="{{category.name}}" style="width:100%;height:600px;box-shadow:5px 5px 5px 5px black">
+    </div>
+
+             <div style="padding-top:56%;">
+                <h1 style="margin-top:-50%;padding-left:30%;"> {{category.name}}</h1><br>
+                <P> {{category.description}}</P>
+             </div>
+
+        {% else %}
+        <div>
+            <img src="{% static 'Banner.jpg' %}" class="banner" alt="Our Products" Style="width:100%;height:500px;">
+       </div><br>
+
+             <div>
+                <h1 style="color:brown;"> Our Product Collections </h1>
+                <p style="color:rgb(4, 92, 51);font-size:18px;">Rainbow & Kids Club is a children's entertainment company that specializes in the design and production of toys,dress,Constume products and cradle products.</p>
+             </div>
+
+
+        {% endif %}
+
+   <div class="container">
+       <div class="row mx_auto">
+         {% for product in products.object_list %}
+         <div class="my_bottom_margin col-9 col-sm-12 col-md-4 col-lg-4">
+             <div class="card" style="min-width:18rem;margin-top:5%;width:300px;height:380px;background-color:#6cabdf;">
+                <a href="{{product.get_url}}"><img class="card-img-top my_image" src="{{product.image.url}}" alt="{{product.name}}" style="width:290px;height:240px;"> </a>
+                 <div class="card-body" style="margin-left:8%;margin-top:8%;width:250px;margin-bottom:12%;background-color: pink;">
+                    <h4 class="card-text-title" style="font-size:12px;color:blue;padding-left:2%;"> <b>{{ product.name }}</b></h4>
+                    <p class="card-text" style="color:red;margin-left:26%;"><b> {{ product.price }}/- </b></p>
+                 </div>
+             </div>
+             <br>
+         </div>
+         {% endfor %}
+       </div>
+       <div class="mx-auto">
+           {% if products.paginator.num_pages > 1 %}
+
+           <hr>
+
+           <div class="text-center">
+               {% for pg in products.paginator.page_range %}
+               <a href="?page={{pg}}"  class="btn btn-info btn-sm {% if products.number == pg %} active  {% endif %}"> {{pg}} </a>
+               {% endfor %}
+           </div>
+           {% endif %}
+       </div>
+       <br>
+   </div><br><br><br>
+{% endblock %}
